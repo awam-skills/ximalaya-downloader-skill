@@ -1,5 +1,6 @@
 ---
 name: ximalaya-downloader
+version: 0.0.1
 description: "下载喜马拉雅免费专辑音频到本地。用本技能自带 Python 脚本走公开接口（无需登录），支持整专辑或区间下载为 m4a、默认生成 Markdown 清单、可选 ffmpeg 转 mp3；付费/VIP 集只跳过不绕过。在用户提供 ximalaya.com 专辑链接并要求下载时使用。主脚本失败时可回退已安装的 yt-dlp-downloader 或 youtube-downloader。不用于付费破解或非喜马拉雅站点。"
 disable-model-invocation: true
 ---
