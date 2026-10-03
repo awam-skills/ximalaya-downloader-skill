@@ -1,0 +1,8 @@
+# 下载产物（m4a/mp3/清单）不入库
+*.m4a
+*.mp3
+*.md.tmp
+/out/
+# Python
+__pycache__/
+*.pyc
