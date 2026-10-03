@@ -28,8 +28,13 @@ disable-model-invocation: true
 |------|------|------|
 | 下载专辑/区间音频为 m4a | ✅ | 必做 |
 | 自动建专辑目录并按 `集号_标题` 命名 | ✅ | — |
+| 下载前付费预扫描（付费集标记跳过，不下载不绕过） | ✅ | 自动执行 |
+| 命名宽度按全专辑集数统一（区间下载不出 `1_` vs `001_` 不一致） | ✅ | 自动执行 |
+| 并发下载 | ✅ 并发 3 | `--workers N` |
+| 失败集自动重试一轮 | ✅ | 自动执行 |
 | 生成 Markdown 目录清单 `<专辑名>_清单.md` | ✅ 默认执行 | `--no-manifest` 关闭 |
 | m4a 批量转 mp3 | ❌ 默认不转 | `--to-mp3` 开启 |
+| 预演（只列将下载集数/付费标记，不写文件） | ❌ | `--dry-run` |
 
 ## 主流程（用脚本下载）
 
@@ -37,24 +42,28 @@ disable-model-invocation: true
 
 1. 从用户链接解析专辑 ID（`/album/<id>`）。
 2. 拉取专辑曲目列表（接口 `revision/play/v1/show`，分页）。若 `ret != 200`，按「兜底」处理。
-3. 确定专辑标题（取首集 `album_title`），作为目录名（非法字符替换为 `_`）。
-4. 逐集取直链（`m.ximalaya.com/tracks/<id>.json` 的 `play_path_64`）并下载为 m4a。
-   - 遇到 `is_paid=True`：报"付费/VIP 内容无法免费下载"，**不要**尝试绕过。
+3. 确定专辑标题（从首集单集接口取 `album_title`，付费集也能取到），作为目录名（非法字符替换为 `_`）。
+4. **付费预扫描**：下载前逐集确认 `is_paid`，付费集标记跳过并汇总（不下载、不绕过）。
+5. 并发下载（默认 3 线程）：逐集取直链（`m.ximalaya.com/tracks/<id>.json` 的 `play_path_64`）并下载为 m4a。
    - 已存在同名且非空文件：跳过（支持断点续传）。
-5. 生成 MD 清单（默认）。
-6. 若 `--to-mp3`：调用 ffmpeg 将目录内 m4a 转为 mp3（保留原 m4a）。
+   - **失败集自动重试一轮**，仍失败才计入失败。
+6. 生成 MD 清单（默认）。
+7. 若 `--to-mp3`：调用 ffmpeg 将目录内 m4a 转为 mp3（保留原 m4a）。
 
 ### 命令示例
 
 ```bash
-# 下载整个专辑到 Downloads
+# 下载整个专辑到 Downloads（并发默认 3）
 python scripts/ximalaya_album_downloader.py "https://www.ximalaya.com/album/72503439"
 
-# 指定输出目录 + 转 mp3
-python scripts/ximalaya_album_downloader.py "https://www.ximalaya.com/album/<ID>" -o "D:\Downloads" --to-mp3
+# 指定输出目录 + 转 mp3 + 并发 5
+python scripts/ximalaya_album_downloader.py "https://www.ximalaya.com/album/<ID>" -o "D:\Downloads" --to-mp3 --workers 5
 
 # 只下 10-20 集
 python scripts/ximalaya_album_downloader.py "https://www.ximalaya.com/album/<ID>" --start 10 --end 20
+
+# 预演：只列将下载集数与付费标记，不写文件
+python scripts/ximalaya_album_downloader.py "https://www.ximalaya.com/album/<ID>" --dry-run
 
 # 只列目录不下载
 python scripts/ximalaya_album_downloader.py "https://www.ximalaya.com/album/<ID>" --only-list
