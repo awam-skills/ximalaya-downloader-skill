@@ -193,9 +193,10 @@ def download_one(track, out_dir, width, headers):
     # 兼容已存在的补零/非补零命名，避免区间下载时重复下载
     exists = os.path.exists(fpath) and os.path.getsize(fpath) > 0
     if not exists:
-        alt = f"{idx}_{title}.m4a"
-        if os.path.exists(alt) and os.path.getsize(alt) > 0:
+        alt_path = os.path.join(out_dir, f"{idx}_{title}.m4a")
+        if os.path.exists(alt_path) and os.path.getsize(alt_path) > 0:
             exists = True
+            fname = f"{idx}_{title}.m4a"
     if exists:
         return idx, "skip", fname, None
     try:
@@ -391,14 +392,12 @@ def main():
             print(f"{t['index']:>4}  {t['title']}{('  ['+mark+']') if mark else ''}")
         return
 
-    # 输出目录
+    # 输出目录（预演不创建目录，避免 dry-run 产生副作用）
     if args.output:
         out_root = args.output
     else:
         out_root = os.path.join(os.path.expanduser("~"), "Downloads")
     out_dir = os.path.join(out_root, album_title)
-    os.makedirs(out_dir, exist_ok=True)
-    print(f"[下载到] {out_dir}")
 
     # 命名宽度按全专辑总集数统一（区间下载也不会出现 1_ vs 001_ 不一致）
     width = len(str(total_all))
@@ -413,6 +412,9 @@ def main():
             print(f"  -> {t['index']:0{width}d}_{title}.m4a")
         print("[预演] 未写入任何文件。")
         return
+
+    os.makedirs(out_dir, exist_ok=True)
+    print(f"[下载到] {out_dir}")
 
     # 并发下载（失败自动重试一轮）
     ok, skip, p, fail, failed_tracks = run_download(tracks, out_dir, width, headers_mobile, args.workers)

@@ -1,0 +1,26 @@
+[
+  {
+    "query": "下载这个喜马拉雅专辑 https://www.ximalaya.com/album/72503439 到本地",
+    "should_trigger": true
+  },
+  {
+    "query": "把喜马拉雅免费音频批量保存成 m4a，还要一份目录清单",
+    "should_trigger": true
+  },
+  {
+    "query": "ximalaya album 10到20集先 dry-run 看看",
+    "should_trigger": true
+  },
+  {
+    "query": "用 yt-dlp 下载这个 B 站视频合集",
+    "should_trigger": false
+  },
+  {
+    "query": "帮我写一个 React 播放器组件展示播客列表",
+    "should_trigger": false
+  },
+  {
+    "query": "下载 YouTube 视频并处理 PO Token",
+    "should_trigger": false
+  }
+]
