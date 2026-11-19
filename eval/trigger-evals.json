@@ -1,0 +1,40 @@
+{
+  "_readme": "awam-skill-eval 生成：意图路由评测集。正例=描述触发场景；负例=confusable sibling 的「看起来像但不该触发」边界例。只读评测资产。",
+  "_skill": "ximalaya-downloader",
+  "_n_pos": 4,
+  "_n_neg": 4,
+  "queries": [
+    {
+      "text": "下载这个喜马拉雅专辑的音频",
+      "expect_trigger": true
+    },
+    {
+      "text": "把 ximalaya.com 专辑前 10 集下成 m4a",
+      "expect_trigger": true
+    },
+    {
+      "text": "生成专辑下载的 Markdown 清单",
+      "expect_trigger": true
+    },
+    {
+      "text": "把这个喜马拉雅专辑下载并转成 mp3",
+      "expect_trigger": true
+    },
+    {
+      "text": "下载一个 YouTube 视频",
+      "expect_trigger": false
+    },
+    {
+      "text": "用 Everything 搜本地文件",
+      "expect_trigger": false
+    },
+    {
+      "text": "整理一下播客订阅列表",
+      "expect_trigger": false
+    },
+    {
+      "text": "把一段普通录音用 ffmpeg 转成 mp3",
+      "expect_trigger": false
+    }
+  ]
+}

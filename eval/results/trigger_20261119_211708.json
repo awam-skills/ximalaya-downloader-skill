@@ -1,0 +1,63 @@
+{
+  "metrics": {
+    "accuracy": 0.875,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.8571,
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "tn": 4
+  },
+  "question": null,
+  "rows": [
+    {
+      "text": "下载这个喜马拉雅专辑的音频",
+      "expect": true,
+      "predicted": true,
+      "raw": "yes"
+    },
+    {
+      "text": "把 ximalaya.com 专辑前 10 集下成 m4a",
+      "expect": true,
+      "predicted": true,
+      "raw": "yes"
+    },
+    {
+      "text": "生成专辑下载的 Markdown 清单",
+      "expect": true,
+      "predicted": false,
+      "raw": "no"
+    },
+    {
+      "text": "把这个喜马拉雅专辑下载并转成 mp3",
+      "expect": true,
+      "predicted": true,
+      "raw": "yes"
+    },
+    {
+      "text": "下载一个 YouTube 视频",
+      "expect": false,
+      "predicted": false,
+      "raw": "no"
+    },
+    {
+      "text": "用 Everything 搜本地文件",
+      "expect": false,
+      "predicted": false,
+      "raw": "no"
+    },
+    {
+      "text": "整理一下播客订阅列表",
+      "expect": false,
+      "predicted": false,
+      "raw": "no"
+    },
+    {
+      "text": "把一段普通录音用 ffmpeg 转成 mp3",
+      "expect": false,
+      "predicted": false,
+      "raw": "no"
+    }
+  ]
+}
